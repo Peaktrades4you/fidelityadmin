@@ -1,0 +1,11 @@
+.t-container {
+  width: 80%;
+  margin: auto;
+}
+#t-head {
+  background-color: white;
+  color: #155263;
+}
+#t-cell {
+  color: #155263;
+}
