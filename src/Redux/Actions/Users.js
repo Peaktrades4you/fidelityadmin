@@ -15,13 +15,14 @@ const getUsersError = (error) => ({
   payload: error,
 });
 
-export const handleGetUsers = () => async (dispatch) => {
+export const handleGetUsers = (pagenum) => async (dispatch) => {
   dispatch(getUsers());
   try {
-    const response = await UseFetch("users", "get");
-    const data = await response.json;
+    const response = await UseFetch(`users?page=${pagenum}&size=20`, "get");
+    console.log(response, "user response");
+    const data = await response.json();
     console.log(data);
-    dispatch(getUsersSuccess());
+    dispatch(getUsersSuccess(data));
   } catch (error) {
     dispatch(getUsersError(error));
   }

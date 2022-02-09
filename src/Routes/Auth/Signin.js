@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { Checkbox } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -11,17 +11,23 @@ import CloseIcon from "@mui/icons-material/Close";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { useDispatch } from "react-redux";
+import { handleUserAuth } from "../../Redux/Actions/Auth";
+import { useSelector } from "react-redux";
+import Spinner from "../../Components/Spinner";
+import { useEffect } from "react";
 
 function SignIn(props) {
-  const [spinning, setSpinning] = useState(false);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loginDetails, setLoginDetails] = useState({
-    email: "",
+    username: "",
     password: "",
   });
+  const { loading, auth } = useSelector(({ Auth }) => Auth);
+  console.log(loading, auth);
 
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginDetails({
@@ -30,17 +36,26 @@ function SignIn(props) {
     });
     console.log(name, value);
   };
+  const [authh, setAuthh] = useState(auth);
+  const handleSignin = async (e) => {
+    e.preventDefault();
+    await dispatch(handleUserAuth(loginDetails));
+    authh === true ? navigate("/dashboard") : console.log(authh, "suppp");
+
+    // if (auth == true) {
+    //   // alert("second");
+    //   navigate("/dashboard");
+    // } else {
+    //   console.log(auth, "suppp");
+    // }
+  };
+  // useEffect(() => {
+  //   auth === true ? navigate("/dashboard") : console.log(auth, "suppp");
+  // }, [auth]);
+
   return (
     <>
       <div className="signin">
-        {/* <div id="active">
-          {" "}
-          <Link to="/">
-            {" "}
-            <img src={Logo} />
-          </Link>
-        </div> */}
-
         <div className="push1"></div>
         <div className="auth-container">
           <Box sx={{ width: "100%" }}>
@@ -68,7 +83,7 @@ function SignIn(props) {
           <h1>Sign in</h1>
           <p>Welcome to the admin, please login to manage account</p>
           <div className="c-form">
-            <form>
+            <form onSubmit={handleSignin}>
               <div className="f-input">
                 <div id="btm" className="object-cont">
                   <div className="left-icon">
@@ -76,9 +91,9 @@ function SignIn(props) {
                   </div>
                   <div className="right-object">
                     <input
-                      type="email"
-                      name="email"
-                      placeholder="Email"
+                      type="text"
+                      name="username"
+                      placeholder="username"
                       onChange={handleChange}
                     />
                   </div>
@@ -98,25 +113,15 @@ function SignIn(props) {
                 </div>
               </div>
 
-              {/* <div className="xtra">
-                <div>
-                  {" "}
-                  <Checkbox />
-                  Remember me
-                </div>
-                <div className="option-i">
-                  <i>
-                    <Link to="/forgotpassword">Forgot password?</Link>
-                  </i>{" "}
-                </div>
-              </div> */}
               <button type="submit" className="form-btn">
-                Login
+                {loading ? (
+                  <div className="spin">
+                    <Spinner />
+                  </div>
+                ) : (
+                  "Login"
+                )}
               </button>
-              {/* <p>Or</p> */}
-              {/* <button className="form-btn2">
-                <Link to="/signup"> Create An Account</Link>{" "}
-              </button> */}
             </form>
           </div>
         </div>

@@ -13,6 +13,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Dropdown from "../Components/Dropdown";
 import { handleGetUsers } from "../Redux/Actions/Users";
+import UseFetch from "../Hooks/UseFetch";
+import ReactPaginate from "react-paginate";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -47,10 +49,19 @@ const rows = [
 
 export default function Users() {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(handleGetUsers());
+    getUsers();
   }, []);
 
+  const [pagenum, setPageNum] = useState(1);
+  const handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    setPageNum(selectedPage + 1);
+  };
+  const getUsers = () => {
+    dispatch(handleGetUsers(3));
+  };
   const { users } = useSelector(({ users }) => users);
   console.log(users);
 
@@ -100,17 +111,18 @@ export default function Users() {
               {users?.items.map((user, i) => (
                 <StyledTableRow key={i} sx={{ height: "85px" }}>
                   <StyledTableCell component="th" scope="row" id="t-cell">
+                    {user.email}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
                     {user.username}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {user.createdAt}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {user.isEmailVerified}
+                    {user.uin} true
                   </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {user.username}
-                  </StyledTableCell>
+
                   <StyledTableCell align="center">
                     <Dropdown values={values} />
                   </StyledTableCell>
@@ -119,6 +131,19 @@ export default function Users() {
             </TableBody> */}
           </Table>
         </TableContainer>
+        <ReactPaginate
+          previousLabel={"prev"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={10}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+        />
       </div>
     </>
   );

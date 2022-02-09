@@ -194,6 +194,13 @@ a {
   border-radius: 3px;
   padding: 2%;
   border: none;
+  position: relative;
+  min-height: 40px;
+}
+.spin {
+  position: absolute;
+  left: 48%;
+  top: -60%;
 }
 
 .ack {

@@ -12,13 +12,12 @@ export default function (Url, Method, Data = null) {
   var Response = fetch(ModifiedUrl, {
     method: Method,
     body: Data,
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      cor: "no-cors",
+
       Authorization: `Bearer ${
-        localStorage.getItem("user")
-          ? JSON?.parse(localStorage?.getItem("user"))
-          : ""
+        localStorage.getItem("token") ? localStorage.getItem("token") : ""
       }`,
     },
   });
