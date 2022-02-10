@@ -36,22 +36,11 @@ function SignIn(props) {
     });
     console.log(name, value);
   };
-  const [authh, setAuthh] = useState(auth);
   const handleSignin = async (e) => {
     e.preventDefault();
     await dispatch(handleUserAuth(loginDetails));
-    authh === true ? navigate("/dashboard") : console.log(authh, "suppp");
-
-    // if (auth == true) {
-    //   // alert("second");
-    //   navigate("/dashboard");
-    // } else {
-    //   console.log(auth, "suppp");
-    // }
+    auth === true ? navigate("/dashboard") : console.log(auth, "suppp");
   };
-  // useEffect(() => {
-  //   auth === true ? navigate("/dashboard") : console.log(auth, "suppp");
-  // }, [auth]);
 
   return (
     <>

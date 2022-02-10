@@ -24,7 +24,7 @@ export const handleUserAuth = (body) => async (dispatch) => {
     console.log(data, "data");
     if (response.ok) {
       localStorage.setItem("token", data.access_token);
-      await dispatch(handleAuthSuccess(data));
+      dispatch(handleAuthSuccess(data));
       // alert("first");
     } else {
       dispatch(handleAuthError());
