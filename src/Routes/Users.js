@@ -15,6 +15,8 @@ import Dropdown from "../Components/Dropdown";
 import { handleGetUsers } from "../Redux/Actions/Users";
 import UseFetch from "../Hooks/UseFetch";
 import ReactPaginate from "react-paginate";
+import { ContactSupportOutlined } from "@mui/icons-material";
+import Spinner from "../Components/Spinner";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -49,26 +51,42 @@ const rows = [
 
 export default function Users() {
   const dispatch = useDispatch();
+  const [pagenum, setPageNum] = useState(1);
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [pagenum]);
 
-  const [pagenum, setPageNum] = useState(1);
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
     setPageNum(selectedPage + 1);
   };
-  const getUsers = () => {
-    dispatch(handleGetUsers(3));
+  const getUsers = async () => {
+    await dispatch(handleGetUsers(pagenum));
   };
-  const { users } = useSelector(({ users }) => users);
-  console.log(users);
+  const [pageCount, setPageCount] = useState(1);
+  const { users, loading } = useSelector(({ Users }) => Users);
+  console.log(users, "userss");
+
+  const getPageCount = () => {
+    const total = users.total;
+    const pageSize = users.size;
+    var count = Math.trunc(total / pageSize);
+
+    if (total % pageSize !== 0) {
+      setPageCount(count + 1);
+    } else {
+      setPageCount(count);
+    }
+  };
+  useEffect(() => {
+    getPageCount();
+  }, [users]);
 
   const values = [
     {
       value: "wallet",
-      url: "/wallet",
+      url: `/wallet/${users.items && users.items.uin}`,
       status: false,
       method: null,
     },
@@ -107,42 +125,55 @@ export default function Users() {
                 </StyledTableCell>
               </TableRow>
             </TableHead>
-            {/* <TableBody>
-              {users?.items.map((user, i) => (
-                <StyledTableRow key={i} sx={{ height: "85px" }}>
-                  <StyledTableCell component="th" scope="row" id="t-cell">
-                    {user.email}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {user.username}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {user.createdAt}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {user.uin} true
-                  </StyledTableCell>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <TableBody>
+                {users?.items &&
+                  users.items.map((user, i) => (
+                    <StyledTableRow key={i} sx={{ height: "85px" }}>
+                      <StyledTableCell component="th" scope="row" id="t-cell">
+                        {user.email}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {user.username}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {user.createdAt}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {user.uin} true
+                      </StyledTableCell>
 
-                  <StyledTableCell align="center">
-                    <Dropdown values={values} />
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody> */}
+                      <StyledTableCell align="center">
+                        <Dropdown values={values} />
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
+        <br />
         <ReactPaginate
-          previousLabel={"prev"}
-          nextLabel={"next"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={10}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={3}
+          nextLabel="next >"
           onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          subContainerClassName={"pages pagination"}
-          activeClassName={"active"}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={2}
+          pageCount={pageCount}
+          previousLabel="< previous"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+          renderOnZeroPageCount={null}
         />
       </div>
     </>
