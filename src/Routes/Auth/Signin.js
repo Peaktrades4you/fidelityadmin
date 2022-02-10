@@ -14,44 +14,34 @@ import { useDispatch } from "react-redux";
 import { handleUserAuth } from "../../Redux/Actions/Auth";
 import { useSelector } from "react-redux";
 import Spinner from "../../Components/Spinner";
-import { useEffect } from "react";
 
 function SignIn(props) {
   const dispatch = useDispatch();
+  const { loading, auth } = useSelector(({ Auth }) => Auth);
+
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loginDetails, setLoginDetails] = useState({
     username: "",
     password: "",
   });
-  const { loading, auth } = useSelector(({ Auth }) => Auth);
-  console.log(loading, auth);
 
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginDetails({
       ...loginDetails,
       [name]: value,
     });
-    console.log(name, value);
   };
-  const [authh, setAuthh] = useState(auth);
-  const handleSignin = async (e) => {
-    e.preventDefault();
-    await dispatch(handleUserAuth(loginDetails));
-    authh === true ? navigate("/dashboard") : console.log(authh, "suppp");
 
-    // if (auth == true) {
-    //   // alert("second");
-    //   navigate("/dashboard");
-    // } else {
-    //   console.log(auth, "suppp");
-    // }
+  const handleSignin = (e) => {
+    e.preventDefault();
+    dispatch(handleUserAuth(loginDetails)).then(() => {
+      navigate("/dashboard");
+    });
   };
-  // useEffect(() => {
-  //   auth === true ? navigate("/dashboard") : console.log(auth, "suppp");
-  // }, [auth]);
 
   return (
     <>
