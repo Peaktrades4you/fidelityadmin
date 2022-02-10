@@ -10,7 +10,7 @@ const initialState = {
   loading: false,
   data: {},
   error: null,
-  auth: false,
+  auth: JSON.parse(localStorage.getItem("hasBeenAuthenticated")) ? true : false,
 };
 
 export const Auth = (state = initialState, action) => {
