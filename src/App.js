@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route
-            path="/wallet"
+            path="/wallet/:id"
             element={
               <PrivateRoute>
                 <Wallet />

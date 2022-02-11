@@ -17,6 +17,7 @@ import UseFetch from "../Hooks/UseFetch";
 import ReactPaginate from "react-paginate";
 import { ContactSupportOutlined } from "@mui/icons-material";
 import Spinner from "../Components/Spinner";
+import moment from "moment";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -36,18 +37,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
 
 export default function Users() {
   const dispatch = useDispatch();
@@ -83,24 +72,6 @@ export default function Users() {
     getPageCount();
   }, [users]);
 
-  const values = [
-    {
-      value: "wallet",
-      url: `/wallet/${users.items && users.items.uin}`,
-      status: false,
-      method: null,
-    },
-    {
-      value: "Disable",
-      url: "#",
-      status: false,
-      method: function () {
-        if (this.status) {
-          console.log("yayy");
-        }
-      },
-    },
-  ];
   return (
     <>
       <MySideNav />
@@ -110,6 +81,8 @@ export default function Users() {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead sx={{ height: "100px" }}>
               <TableRow>
+                <StyledTableCell id="t-head">S/N</StyledTableCell>
+
                 <StyledTableCell id="t-head">Email</StyledTableCell>
                 <StyledTableCell align="center" id="t-head">
                   Username
@@ -133,20 +106,42 @@ export default function Users() {
                   users.items.map((user, i) => (
                     <StyledTableRow key={i} sx={{ height: "85px" }}>
                       <StyledTableCell component="th" scope="row" id="t-cell">
+                        {i + 1}
+                      </StyledTableCell>
+                      <StyledTableCell component="th" scope="row" id="t-cell">
                         {user.email}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {user.username}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {user.createdAt}
+                        {moment(user.createdAt).format("Do MMM YYYY")}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {user.uin} true
                       </StyledTableCell>
 
                       <StyledTableCell align="center">
-                        <Dropdown values={values} />
+                        <Dropdown
+                          values={[
+                            {
+                              value: "wallet",
+                              url: `/wallet/${user.uin}`,
+                              status: false,
+                              method: null,
+                            },
+                            {
+                              value: "Disable",
+                              url: "#",
+                              status: false,
+                              method: function () {
+                                if (this.status) {
+                                  console.log("yayy");
+                                }
+                              },
+                            },
+                          ]}
+                        />
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
