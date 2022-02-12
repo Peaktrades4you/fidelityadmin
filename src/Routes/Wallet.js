@@ -15,12 +15,17 @@ export default function Wallet() {
   const dispatch = useDispatch();
 
   const getUserDetails = async () => {
-    await dispatch(handleGetUserDetails(id));
+    await dispatch(handleGetUserDetails(id)).then(() => {
+      var arr = Object.entries(
+        (userDetails.wallet && userDetails.wallet) || {}
+      ); //did this to convert the object from endpoint to an array
+      setWalletArr(arr);
+    });
   };
   useEffect(() => {
     getUserDetails();
   }, []);
-  const { userDetails } = useSelector(({ Users }) => Users);
+  const { userDetails, loading } = useSelector(({ Users }) => Users);
 
   const [walletDetails, setWalletDetails] = useState({
     cash_balance: 0,
@@ -67,16 +72,25 @@ export default function Wallet() {
     "Total Withdrawal",
   ];
 
-  const walletArr = Object.entries(
-    (userDetails.wallet && userDetails.wallet) || {}
-  ); //did this to convert the object from endpoint to an array
+  const [walletArr, setWalletArr] = useState([]);
+  const [walletValues, setWalletValues] = useState([]);
+  const [walletKeys, setWalletKeys] = useState([]);
+
+  useEffect(() => {
+    var values =
+      walletArr &&
+      walletArr.map((arr) => {
+        return arr[1];
+      }); // returning just the second elements of each array
+    setWalletValues(values);
+    var keys =
+      walletArr &&
+      walletArr.map((arr) => {
+        return arr[0];
+      }); // returning just the first elements of each array
+    setWalletKeys(keys);
+  }, []);
   console.log(walletArr, "walletarr");
-  const walletValues = walletArr.map((arr) => {
-    return arr[1];
-  }); // returning just the second elements of each array
-  const walletKeys = walletArr.map((arr) => {
-    return arr[0];
-  }); // returning just the first elements of each array
 
   return (
     <div>
@@ -84,8 +98,8 @@ export default function Wallet() {
       <Topnav />
       <div className="t-container">
         <h1>Wallet Details</h1>
-        {userDetails.user && <h3>{userDetails?.user.username}</h3>}
-        <Grid container spacing={2}>
+        <h3>{userDetails.user && userDetails?.user.username}</h3>
+        <Grid container spacing={6}>
           {buttons.map((key, i) => (
             <Grid item xs={12} md={6} lg={4}>
               <div className="card" key={i}>
@@ -93,7 +107,8 @@ export default function Wallet() {
                 <p>
                   <input
                     type={"text"}
-                    value={`$ ${walletValues[i]}`}
+                    defaultValue={`${walletValues && walletValues[i]}`}
+                    placeholder="$"
                     disabled={key.clicked}
                     name={walletKeys[i]}
                     onChange={handleChange}
@@ -108,7 +123,11 @@ export default function Wallet() {
                   >
                     Edit
                   </Button>
-                  <Button variant="contained" sx={{ position: "unset" }}>
+                  <Button
+                    variant="contained"
+                    sx={{ position: "unset" }}
+                    onClick={editWalletDetails}
+                  >
                     Save
                   </Button>
                 </Stack>

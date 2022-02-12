@@ -40,44 +40,13 @@ export default function MySideNav() {
               <div>{toggled ? "Users" : ""}</div>
             </Link>
           </div>
-          <div className="nav-li">
-            <div onClick={handleToggle}>
-              <MoneyIcon />
-            </div>
-            <Link to="/admin/fundaccounts">
-              <div> {toggled ? "Fund Account" : ""}</div>
-            </Link>
-          </div>
-          <div className="nav-li">
-            <div onClick={handleToggle}>
-              <PlaylistAddCheckIcon />
-            </div>
-            <Link to="/admin/payouts">
-              <div>{toggled ? "Payouts" : ""}</div>
-            </Link>
-          </div>
-          <div className="nav-li">
-            <div onClick={handleToggle}>
-              <AddBoxIcon />
-            </div>
-            <Link to="/admin/plans">
-              <div>{toggled ? "Plans" : ""}</div>
-            </Link>
-          </div>
-          <div className="nav-li">
-            <div onClick={handleToggle}>
-              <PhoneCallbackIcon />
-            </div>
-            <Link to="/admin/disputes">
-              <div>{toggled ? "Disputes" : ""}</div>
-            </Link>
-          </div>
+
           <div className="nav-li">
             <div onClick={handleToggle}>
               <PersonOutlineOutlinedIcon />
             </div>
-            <Link to="/admin/referrals">
-              <div> {toggled ? "Referrals" : ""}</div>
+            <Link to="/admin/investors">
+              <div> {toggled ? "Investors" : ""}</div>
             </Link>
           </div>
           <div id="more"></div>

@@ -7,6 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #155263;
 }
 
 code {
@@ -267,4 +268,244 @@ a {
 
 .pagination .disabled {
   color: grey;
+}
+
+/* profile */
+
+.prof-body {
+  display: grid;
+  grid-template-columns: auto 30%;
+}
+
+.prof-upload,
+.prof-form {
+  padding: 1%;
+  margin: 1%;
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 4px -3px;
+}
+
+.prof-form {
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 4px -3px;
+  padding: 3%;
+}
+
+.prof-form-head {
+  padding: 2% 0 4% 1%;
+}
+
+.prof-form .pro-form-line {
+  padding: 1%;
+  display: grid;
+  grid-template-columns: 20% 75%;
+  padding-bottom: 2%;
+  width: 97%;
+}
+
+.prof-form .pro-text {
+  padding-top: 10%;
+}
+
+.prof-form .pro-form-line input {
+  padding: 3%;
+  width: 100%;
+  border-radius: 0.2em;
+  border: 0.5px solid rgb(211, 207, 207);
+  outline: none;
+}
+
+.prof-form .pro-form-line input:hover {
+  border: 0.5px solid rgb(134, 133, 133);
+}
+
+.prof-form-button {
+  text-align: right;
+}
+
+.prof-form-button button {
+  border: 1px solid #d35e33;
+  background-color: #fff;
+  color: #d35e33;
+  padding: 2%;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: 700;
+  margin: 1%;
+}
+
+.prof-upload input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 2% 4%;
+  cursor: pointer;
+  width: 90%;
+  margin-bottom: 3%;
+}
+.verification-status {
+  font-size: 0.7rem;
+  border-radius: 0.5em;
+  text-transform: capitalize;
+  background-color: #fdb44b;
+  color: #fff;
+  width: fit-content;
+  padding: 1%;
+  margin-bottom: 5%;
+}
+
+.prof-kyc-button,
+.prof-photo-button {
+  text-align: right;
+}
+
+.prof-kyc-button button,
+.prof-photo-button button {
+  border: none;
+  background-color: #fdb44b;
+  color: #fff;
+  padding: 3%;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: 700;
+  margin: 1%;
+}
+
+.prof-upload .prof-kyc {
+  padding: 3%;
+  padding-top: 7%;
+}
+
+.prof-upload .prof-photo {
+  padding: 4%;
+  padding-top: 7%;
+  margin-top: 20%;
+}
+
+.prof-photo .custom-file-upload {
+  margin-top: 2%;
+}
+
+.change-card {
+  /* border: 1px solid black; */
+  margin: auto;
+  width: 50%;
+  border-radius: 0.3em;
+  box-shadow: 0px 0px 4px -2px #4a0f00;
+  padding-top: 4%;
+  padding-bottom: 4%;
+}
+
+.change-form {
+  margin: auto;
+  width: 50%;
+}
+
+/* .change-form .change-topic {
+  margin-top: 20%;
+} */
+
+.change-form div {
+  text-align: center;
+  margin-top: 10%;
+}
+
+.change-form b {
+  font-size: 1.3em;
+}
+
+.change-form input {
+  width: 100%;
+  padding: 4%;
+  outline: none;
+  border-radius: 0.2em;
+  border: 1px solid #7b9cc7;
+}
+
+.change-form input:hover {
+  border: 1px solid #2971cf;
+}
+
+.change-form .change-button button {
+  border: none;
+  padding: 3%;
+  background-color: #d35e33;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 0.2em;
+}
+
+@media only screen and (max-width: 552px) {
+  .prof-body {
+    display: grid;
+    grid-template-columns: auto;
+  }
+  .prof-upload .prof-photo {
+    margin-top: 10%;
+  }
+  .prof-form .pro-form-line {
+    display: grid;
+    grid-template-columns: auto;
+  }
+  .prof-form .pro-form-line input {
+    width: 90%;
+  }
+  .plans-container {
+    grid-template-columns: auto;
+  }
+
+  .change-card {
+    width: 100%;
+    margin-top: 56%;
+  }
+
+  .change-form {
+    width: 80%;
+  }
+  .change-form input {
+    width: 80%;
+  }
+  .signin {
+    height: 100vh;
+  }
+  .auth-container {
+    width: 100%;
+    padding-bottom: 20%;
+    margin-top: 43%;
+  }
+  .f-input {
+    width: 82%;
+  }
+  .f-input .left-icon {
+    border: 2px solid #7178b3;
+    border-right: none;
+  }
+  .f-input input {
+    width: 88%;
+  }
+  .form-btn,
+  .form-btn2 {
+    width: 63%;
+    margin-left: 19%;
+  }
+  .xtra {
+    width: 90%;
+    margin: auto;
+  }
+  .push {
+    padding-bottom: 42%;
+  }
+  .push-md {
+    padding-bottom: 30%;
+  }
+  .push2 {
+    padding-bottom: 50%;
+  }
+  #conf {
+    margin-top: 50%;
+  }
 }

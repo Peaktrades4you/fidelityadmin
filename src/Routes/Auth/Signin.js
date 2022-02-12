@@ -39,7 +39,7 @@ function SignIn(props) {
   const handleSignin = (e) => {
     e.preventDefault();
     dispatch(handleUserAuth(loginDetails)).then(() => {
-      navigate("/dashboard");
+      navigate("/admin/users");
     });
   };
 

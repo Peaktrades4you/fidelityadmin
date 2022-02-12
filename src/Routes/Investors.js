@@ -18,7 +18,7 @@ import ReactPaginate from "react-paginate";
 import { ContactSupportOutlined } from "@mui/icons-material";
 import Spinner from "../Components/Spinner";
 import moment from "moment";
-import { Button } from "@mui/material";
+import { handleGetInvestors } from "../Redux/Actions/Investors";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -39,28 +39,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function Users() {
+export default function Investors() {
   const dispatch = useDispatch();
   const [pagenum, setPageNum] = useState(1);
 
   useEffect(() => {
-    getUsers();
+    getInvestors();
   }, [pagenum]);
+
+  const getInvestors = async () => {
+    await dispatch(handleGetInvestors());
+  };
 
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
     setPageNum(selectedPage + 1);
   };
-  const getUsers = async () => {
-    await dispatch(handleGetUsers(pagenum));
-  };
+
   const [pageCount, setPageCount] = useState(1);
-  const { users, loading } = useSelector(({ Users }) => Users);
-  console.log(users, "userss");
+  const { data, loading } = useSelector(({ Investors }) => Investors);
+  console.log(data, "userss");
 
   const getPageCount = () => {
-    const total = users.total;
-    const pageSize = users.size;
+    const total = data.total;
+    const pageSize = data.size;
     var count = Math.trunc(total / pageSize);
 
     if (total % pageSize !== 0) {
@@ -71,14 +73,14 @@ export default function Users() {
   };
   useEffect(() => {
     getPageCount();
-  }, [users]);
+  }, [data]);
 
   return (
     <>
       <MySideNav />
       <Topnav />
       <div className="t-container">
-        <h2>All Users</h2>
+        <h2>Investors</h2>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead sx={{ height: "100px" }}>
@@ -104,8 +106,8 @@ export default function Users() {
               <Spinner />
             ) : (
               <TableBody>
-                {users?.items &&
-                  users.items.map((user, i) => (
+                {data?.items &&
+                  data?.items.map((user, i) => (
                     <StyledTableRow key={i} sx={{ height: "85px" }}>
                       <StyledTableCell component="th" scope="row" id="t-cell">
                         {i + 1}
@@ -120,13 +122,7 @@ export default function Users() {
                         {moment(user.createdAt).format("Do MMM YYYY")}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {user.isEmailVerified ? (
-                          <Button color="primary" variant="contained">
-                            Active
-                          </Button>
-                        ) : (
-                          <Button color="secondary">Inctive</Button>
-                        )}
+                        {user.uin} true
                       </StyledTableCell>
 
                       <StyledTableCell align="center">
