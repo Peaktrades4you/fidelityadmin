@@ -125,7 +125,9 @@ export default function Users() {
                             Active
                           </Button>
                         ) : (
-                          <Button color="secondary">Inctive</Button>
+                          <Button color="secondary" variant="outlined">
+                            Inactive
+                          </Button>
                         )}
                       </StyledTableCell>
 
