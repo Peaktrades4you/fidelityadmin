@@ -14,25 +14,26 @@ export default function Wallet() {
   const { id } = useParams();
   const dispatch = useDispatch();
 
+  const [walletArr, setWalletArr] = useState([]);
+  const [walletValues, setWalletValues] = useState([]);
+  const [walletKeys, setWalletKeys] = useState([]);
+
   const getUserDetails = async () => {
-    await dispatch(handleGetUserDetails(id)).then(() => {
-      var arr = Object.entries(
-        (userDetails.wallet && userDetails.wallet) || {}
-      ); //did this to convert the object from endpoint to an array
-      setWalletArr(arr);
-    });
+    await dispatch(handleGetUserDetails(id));
   };
+
   useEffect(() => {
     getUserDetails();
   }, []);
+
   const { userDetails, loading } = useSelector(({ Users }) => Users);
 
   const [walletDetails, setWalletDetails] = useState({
-    cash_balance: 0,
-    profit: 0,
-    refferalProfit: 0,
-    depositBalance: 0,
-    withdrawBalance: 0,
+    cash_balance: userDetails?.wallet?.cash_balance,
+    profit: userDetails?.wallet?.profit,
+    refferalProfit: userDetails?.wallet?.refferalProfit,
+    depositBalance: userDetails?.wallet?.depositBalance,
+    withdrawBalance: userDetails?.wallet?.withdrawBalance,
   });
 
   const handleChange = (e) => {
@@ -72,25 +73,40 @@ export default function Wallet() {
     "Total Withdrawal",
   ];
 
-  const [walletArr, setWalletArr] = useState([]);
-  const [walletValues, setWalletValues] = useState([]);
-  const [walletKeys, setWalletKeys] = useState([]);
+  useEffect(() => {
+    handleWallet();
+    // alert("chnaged");
+  }, [userDetails]);
+
+  const handleWallet = () => {
+    const walletDetails = Object.entries(
+      (userDetails.wallet && userDetails.wallet) || {}
+    );
+    setWalletArr((arr) => [...walletDetails]); //did this to convert the object from endpoint to an array
+  };
 
   useEffect(() => {
-    var values =
-      walletArr &&
-      walletArr.map((arr) => {
-        return arr[1];
-      }); // returning just the second elements of each array
-    setWalletValues(values);
-    var keys =
-      walletArr &&
-      walletArr.map((arr) => {
-        return arr[0];
-      }); // returning just the first elements of each array
-    setWalletKeys(keys);
-  }, []);
-  console.log(walletArr, "walletarr");
+    handleWalletValues();
+  }, [walletArr]);
+
+  useEffect(() => {
+    handleWalletKeys();
+  }, [walletValues]);
+
+  const handleWalletKeys = () => {
+    const keys = walletArr.map((arr) => {
+      return arr[0];
+    }); // returning just the first elements of each array
+    setWalletKeys((arr) => [...keys]);
+  };
+
+  const handleWalletValues = () => {
+    const keys = walletArr.map((arr) => {
+      return arr[1];
+    });
+    setWalletValues((arr) => [...keys]);
+    // returning just the second elements of each array
+  };
 
   return (
     <div>
@@ -107,7 +123,7 @@ export default function Wallet() {
                 <p>
                   <input
                     type={"text"}
-                    defaultValue={`${walletValues && walletValues[i]}`}
+                    defaultValue={walletValues[i]}
                     placeholder="$"
                     disabled={key.clicked}
                     name={walletKeys[i]}

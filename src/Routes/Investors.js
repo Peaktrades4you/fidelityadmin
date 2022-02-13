@@ -19,6 +19,7 @@ import { ContactSupportOutlined } from "@mui/icons-material";
 import Spinner from "../Components/Spinner";
 import moment from "moment";
 import { handleGetInvestors } from "../Redux/Actions/Investors";
+import { Button } from "@mui/material";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -122,7 +123,15 @@ export default function Investors() {
                         {moment(user.createdAt).format("Do MMM YYYY")}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {user.uin} true
+                        {user.isEmailVerified ? (
+                          <Button color="primary" variant="contained">
+                            Active
+                          </Button>
+                        ) : (
+                          <Button color="secondary" variant="outlined">
+                            Inactive
+                          </Button>
+                        )}
                       </StyledTableCell>
 
                       <StyledTableCell align="center">

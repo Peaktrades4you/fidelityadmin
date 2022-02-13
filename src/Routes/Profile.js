@@ -1,8 +1,22 @@
 import React from "react";
 import MySideNav from "../Components/Sidenav";
 import Topnav from "../Components/Topnav";
+import { useDispatch, useSelector } from "react-redux";
+import { handleGetProfile } from "../Redux/Actions/Profile";
+import { useEffect } from "react";
 
 export default function Profile() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    Profile();
+  }, []);
+
+  const Profile = () => {
+    dispatch(handleGetProfile());
+  };
+
+  const { data } = useSelector(({ Profile }) => Profile);
+  console.log(data);
   return (
     <>
       <MySideNav />
@@ -42,29 +56,11 @@ export default function Profile() {
             </form>
           </div>
           <div className="prof-upload">
-            {/* <div className="prof-kyc">
-              <b>Kyc verification</b>
-              <p>
-                Upload an identity document, for example, driver license, voters
-                card, international passport, national ID
-              </p>
-              <div className="verification-status">Unverified</div>
-
-              <div>
-                <label for="file-upload" class="custom-file-upload">
-                  Select document
-                </label>
-                <input type="file" id="file-upload" name="document"></input>
-              </div>
-              <div className="prof-kyc-button">
-                <button type="submit">Upload</button>
-              </div>
-            </div> */}
             <div className="prof-photo">
               <b>Change account photo</b>
 
               <div>
-                <label for="file-upload" class="custom-file-upload">
+                <label htmlFor="file-upload" className="custom-file-upload">
                   Select photo
                 </label>
                 <input
