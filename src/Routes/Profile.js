@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MySideNav from "../Components/Sidenav";
 import Topnav from "../Components/Topnav";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,12 @@ export default function Profile() {
   const Profile = () => {
     dispatch(handleGetProfile());
   };
+  const [profileDetails, setProfileDetails] = useState({
+    image: "",
+    username: "",
+    first_name: "",
+    last_name: "",
+  });
 
   const { data } = useSelector(({ Profile }) => Profile);
   console.log(data);
