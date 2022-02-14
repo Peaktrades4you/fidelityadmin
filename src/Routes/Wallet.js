@@ -45,8 +45,15 @@ export default function Wallet() {
     console.log(name, value);
   };
 
-  const editWalletDetails = () => {
+  const editWalletDetails = (buttonId) => {
     dispatch(handleEditUserWallet(id, walletDetails));
+    const nextState = buttons.map((button) => {
+      if (button.id !== buttonId) {
+        return button;
+      }
+      return { ...button, clicked: !button.clicked };
+    });
+    setButtons(nextState);
   };
 
   //handle toggle of several buttons with one state
@@ -137,12 +144,12 @@ export default function Wallet() {
                     sx={{ position: "unset" }}
                     onClick={() => handleEdit(key.id)}
                   >
-                    Edit
+                    {key.clicked ? "Edit" : "cancel"}
                   </Button>
                   <Button
                     variant="contained"
                     sx={{ position: "unset" }}
-                    onClick={editWalletDetails}
+                    onClick={() => editWalletDetails(key.id)}
                   >
                     Save
                   </Button>
