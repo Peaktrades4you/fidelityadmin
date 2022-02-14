@@ -2,27 +2,60 @@ import React, { useState } from "react";
 import MySideNav from "../Components/Sidenav";
 import Topnav from "../Components/Topnav";
 import { useDispatch, useSelector } from "react-redux";
-import { handleGetProfile } from "../Redux/Actions/Profile";
+import { handleEditProfile, handleGetProfile } from "../Redux/Actions/Profile";
 import { useEffect } from "react";
 
 export default function Profile() {
   const dispatch = useDispatch();
+  const { data } = useSelector(({ Profile }) => Profile);
+  console.log(data, "usedata");
+
   useEffect(() => {
     Profile();
   }, []);
+  const [profileDetails, setProfileDetails] = useState({});
 
   const Profile = () => {
     dispatch(handleGetProfile());
   };
-  const [profileDetails, setProfileDetails] = useState({
-    image: "",
-    username: "",
-    first_name: "",
-    last_name: "",
-  });
 
-  const { data } = useSelector(({ Profile }) => Profile);
-  console.log(data);
+  const setProfile = () => {
+    setProfileDetails({
+      image: data?.profile_image_url,
+      username: data?.username,
+      first_name: data?.first_name,
+      last_name: data?.last_name,
+    });
+  };
+
+  useEffect(() => {
+    setProfile();
+  }, [data]);
+
+  const form = new FormData();
+  const handleProfile = (e) => {
+    e.preventDefault();
+    form.append("image", image);
+    form.append("username", profileDetails.username);
+    form.append("first_name", profileDetails.first_name);
+    form.append("last_name", profileDetails.last_name);
+    console.log(form, "form");
+    dispatch(handleEditProfile(form));
+  };
+
+  console.log(form, "form");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProfileDetails({
+      ...profileDetails,
+      [name]: value,
+    });
+    console.log(name, value);
+    console.log(profileDetails, "pdeets");
+  };
+  const [image, setImage] = useState({});
+
   return (
     <>
       <MySideNav />
@@ -33,26 +66,51 @@ export default function Profile() {
             <div className="prof-form-head">
               <b>Update account information</b>
             </div>
-            <form onSubmit="">
+            <form onSubmit={handleProfile}>
               <div className="pro-form-line">
                 <div className="pro-text">
-                  <span>Name:</span>
+                  <span>Username:</span>
                 </div>
                 <div>
-                  <input type="text" placeholder="John Doe"></input>
+                  <input
+                    type="text"
+                    name="username"
+                    placeholder="John Doe"
+                    onChange={handleChange}
+                    defaultValue={data?.username}
+                  />
+                  <label style={{ fontSize: "small", color: "#fdb44b" }}>
+                    please log out and sign in after username is edited
+                  </label>
+                </div>
+              </div>
+              <div className="pro-form-line">
+                <div className="pro-text">
+                  <span>First Name:</span>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="first_name"
+                    placeholder="John Doe"
+                    onChange={handleChange}
+                    defaultValue={data?.first_name}
+                  />
                 </div>
               </div>
 
               <div className="pro-form-line">
                 <div className="pro-text">
-                  <span>Mobile:</span>
+                  <span>Last Name:</span>
                 </div>
                 <div>
                   <input
                     type="text"
-                    placeholder="+17065784563"
-                    name="contact"
-                  ></input>
+                    placeholder="last name"
+                    name="last_name"
+                    onChange={handleChange}
+                    defaultValue={data?.last_name}
+                  />
                 </div>
               </div>
 
@@ -72,12 +130,16 @@ export default function Profile() {
                 <input
                   type="file"
                   id="file-upload"
-                  name="profile-picture"
-                ></input>
+                  name="image"
+                  onChange={(e) => {
+                    setImage(e.target.files[0]);
+                    console.log(e.target.name, e.target.files[0]);
+                  }}
+                />
               </div>
               <p>Accepted formats:png,jpg</p>
               <div className="prof-photo-button">
-                <button>Upload</button>
+                <button onClick={handleProfile}>Upload</button>
               </div>
             </div>
           </div>

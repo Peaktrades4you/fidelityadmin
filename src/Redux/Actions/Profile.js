@@ -51,7 +51,21 @@ export const handleGetProfile = () => async (dispatch) => {
 export const handleEditProfile = (body) => async (dispatch) => {
   dispatch(editProfile());
   try {
-    const response = await UseFetch(`profile/update`, "put", body);
+    const response = await fetch(
+      "https://fidelity-trades.herokuapp.com/admin/profile",
+      {
+        method: "put",
+        body: body,
+        mode: "cors",
+
+        headers: {
+          // 'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${
+            localStorage.getItem("token") ? localStorage.getItem("token") : ""
+          }`,
+        },
+      }
+    );
     console.log(response, "user response");
     const data = await response.json();
     console.log(data);

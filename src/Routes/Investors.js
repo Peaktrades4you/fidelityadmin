@@ -12,13 +12,16 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Dropdown from "../Components/Dropdown";
-import { handleGetUsers } from "../Redux/Actions/Users";
-import UseFetch from "../Hooks/UseFetch";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
 import ReactPaginate from "react-paginate";
 import { ContactSupportOutlined } from "@mui/icons-material";
 import Spinner from "../Components/Spinner";
 import moment from "moment";
-import { handleGetInvestors } from "../Redux/Actions/Investors";
+import {
+  handleGetInvestorPlan,
+  handleGetInvestors,
+} from "../Redux/Actions/Investors";
 import { Button } from "@mui/material";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -41,25 +44,59 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function Investors() {
+  //popover control
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [uin, setUin] = useState("");
+  const handleClick = (event, uin) => {
+    setAnchorEl(event.currentTarget);
+    // setUin(uin);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  //dispatching api calls
+  const [pageCount, setPageCount] = useState(1);
+  const { data, loading, plans } = useSelector(({ Investors }) => Investors);
+  console.log(data, "userss");
   const dispatch = useDispatch();
   const [pagenum, setPageNum] = useState(1);
+
+  const getInvestors = async () => {
+    await dispatch(handleGetInvestors());
+  };
+  const getInvestorPlans = async () => {
+    await dispatch(handleGetInvestorPlan(uin));
+  };
+
+  const handleUin = (uin) => {
+    setUin(uin);
+  };
+  console.log(uin, "uin");
 
   useEffect(() => {
     getInvestors();
   }, [pagenum]);
 
-  const getInvestors = async () => {
-    await dispatch(handleGetInvestors());
-  };
+  useEffect(() => {
+    getInvestorPlans();
+    console.log(uin);
+  }, [uin]);
+
+  useEffect(() => {
+    getPageCount();
+  }, [data]);
+
+  //handle pagination
 
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
     setPageNum(selectedPage + 1);
   };
-
-  const [pageCount, setPageCount] = useState(1);
-  const { data, loading } = useSelector(({ Investors }) => Investors);
-  console.log(data, "userss");
 
   const getPageCount = () => {
     const total = data.total;
@@ -72,9 +109,6 @@ export default function Investors() {
       setPageCount(count);
     }
   };
-  useEffect(() => {
-    getPageCount();
-  }, [data]);
 
   return (
     <>
@@ -135,26 +169,14 @@ export default function Investors() {
                       </StyledTableCell>
 
                       <StyledTableCell align="center">
-                        <Dropdown
-                          values={[
-                            {
-                              value: "wallet",
-                              url: `/wallet/${user.uin}`,
-                              status: false,
-                              method: null,
-                            },
-                            {
-                              value: "Disable",
-                              url: "#",
-                              status: false,
-                              method: function () {
-                                if (this.status) {
-                                  console.log("yayy");
-                                }
-                              },
-                            },
-                          ]}
-                        />
+                        <Button
+                          aria-describedby={id}
+                          variant="contained"
+                          onClick={handleClick}
+                          onMouseEnter={() => handleUin(user?.uin)}
+                        >
+                          See Plans
+                        </Button>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
@@ -163,6 +185,48 @@ export default function Investors() {
           </Table>
         </TableContainer>
         <br />
+
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        >
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 300 }} aria-label="customized table">
+              <TableHead sx={{ height: "100px" }}>
+                <TableRow>
+                  <StyledTableCell id="t-head">S/N</StyledTableCell>
+
+                  <StyledTableCell id="t-head">Plan</StyledTableCell>
+                  <StyledTableCell align="center" id="t-head">
+                    Amount
+                  </StyledTableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {plans?.items &&
+                  plans?.items.map((data, i) => (
+                    <TableRow>
+                      <StyledTableCell id="t-head">{i + 1}</StyledTableCell>
+
+                      <StyledTableCell component="th" scope="row" id="t-cell">
+                        {data?.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        ${data?.amount}
+                      </StyledTableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Popover>
         <ReactPaginate
           nextLabel="next >"
           onPageChange={handlePageClick}

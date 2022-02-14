@@ -8,5 +8,8 @@
 }
 .topnav div {
   margin-left: 5%;
-  margin-right: 1%;
+  margin-right: 3%;
+}
+.topnav img {
+  border-radius: 50%;
 }
