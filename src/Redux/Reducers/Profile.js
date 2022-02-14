@@ -1,3 +1,4 @@
+import { TryRounded } from "@mui/icons-material";
 import {
   EDIT_PROFILE,
   EDIT_PROFILE_ERROR,
@@ -11,6 +12,7 @@ const initialState = {
   loading: false,
   data: [],
   error: null,
+  success: null,
 };
 
 export const Profile = (state = initialState, action) => {
@@ -26,6 +28,7 @@ export const Profile = (state = initialState, action) => {
         ...state,
         loading: false,
         data: action.payload,
+        // success: true,
       };
 
     case GET_PROFILE_ERROR:
@@ -33,6 +36,7 @@ export const Profile = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        // success: false,
       };
 
     case EDIT_PROFILE:
@@ -46,6 +50,7 @@ export const Profile = (state = initialState, action) => {
         ...state,
         loading: false,
         data: action.payload,
+        success: true,
       };
 
     case EDIT_PROFILE_ERROR:
@@ -53,6 +58,7 @@ export const Profile = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        success: false,
       };
     default:
       return state;

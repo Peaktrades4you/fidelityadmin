@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { Checkbox } from "@mui/material";
@@ -17,8 +17,8 @@ import Spinner from "../../Components/Spinner";
 
 function SignIn(props) {
   const dispatch = useDispatch();
-  const { loading, auth } = useSelector(({ Auth }) => Auth);
-  console.log(auth?.error, "error");
+  const { loading, error } = useSelector(({ Auth }) => Auth);
+  console.log(error, loading);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loginDetails, setLoginDetails] = useState({
@@ -43,15 +43,23 @@ function SignIn(props) {
     });
   };
 
+  useEffect(() => {
+    if (error) {
+      setOpen(true);
+      setMessage(error);
+    }
+  }, [error]);
+
   return (
     <>
       <div className="signin">
         <div className="push1"></div>
         <div className="auth-container">
-          <Box sx={{ width: "100%" }}>
+          <Box sx={{ width: "50%", margin: "auto" }}>
             <Collapse in={open}>
               <Alert
                 severity="error"
+                // color="info"
                 action={
                   <IconButton
                     aria-label="close"

@@ -40,6 +40,8 @@ export const handleUserAuth = (body) => async (dispatch) => {
     if (response.status === 200) {
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("hasBeenAuthenticated", true);
+      localStorage.setItem("admin", JSON.stringify(response.data.admin));
+
       dispatch(handleAuthSuccess(response.data));
     }
   } catch (error) {

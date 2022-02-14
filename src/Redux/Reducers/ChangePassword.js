@@ -8,6 +8,7 @@ const initialState = {
   loading: false,
   data: [],
   error: null,
+  success: null,
 };
 
 export const ChangePassword = (state = initialState, action) => {
@@ -23,6 +24,7 @@ export const ChangePassword = (state = initialState, action) => {
         ...state,
         loading: false,
         data: action.payload,
+        success: true,
       };
 
     case CHANGE_PASSWORD_ERROR:
@@ -30,6 +32,7 @@ export const ChangePassword = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        success: false,
       };
 
     default:

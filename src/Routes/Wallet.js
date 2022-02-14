@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleGetUserDetails } from "../Redux/Actions/Users";
 import { useEffect } from "react";
 import { handleEditUserWallet } from "../Redux/Actions/Wallet";
+import Spinner from "../Components/Spinner";
 export default function Wallet() {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -119,45 +120,51 @@ export default function Wallet() {
     <div>
       <MySideNav />
       <Topnav />
-      <div className="t-container">
+      <div className="t-container" id="wal">
         <h1>Wallet Details</h1>
-        <h3>{userDetails.user && userDetails?.user.username}</h3>
-        <Grid container spacing={6}>
-          {buttons.map((key, i) => (
-            <Grid item xs={12} md={6} lg={4}>
-              <div className="card" key={i}>
-                <h3>{userWalletValues[i]}</h3>
-                <p>
-                  <input
-                    type={"text"}
-                    defaultValue={walletValues[i]}
-                    placeholder="$"
-                    disabled={key.clicked}
-                    name={walletKeys[i]}
-                    onChange={handleChange}
-                  />
-                </p>
-                <Stack direction={"row"} spacing={2}>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    sx={{ position: "unset" }}
-                    onClick={() => handleEdit(key.id)}
-                  >
-                    {key.clicked ? "Edit" : "cancel"}
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{ position: "unset" }}
-                    onClick={() => editWalletDetails(key.id)}
-                  >
-                    Save
-                  </Button>
-                </Stack>
-              </div>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <h3>{userDetails.user && userDetails?.user.username}</h3>
+            <Grid container spacing={6}>
+              {buttons.map((key, i) => (
+                <Grid item xs={12} md={6} lg={4}>
+                  <div className="card" key={i}>
+                    <h3>{userWalletValues[i]}</h3>
+                    <p>
+                      <input
+                        type={"text"}
+                        defaultValue={walletValues[i]}
+                        placeholder="$"
+                        disabled={key.clicked}
+                        name={walletKeys[i]}
+                        onChange={handleChange}
+                      />
+                    </p>
+                    <Stack direction={"row"} spacing={2}>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        sx={{ position: "unset" }}
+                        onClick={() => handleEdit(key.id)}
+                      >
+                        {key.clicked ? "Edit" : "cancel"}
+                      </Button>
+                      <Button
+                        variant="contained"
+                        sx={{ position: "unset" }}
+                        onClick={() => editWalletDetails(key.id)}
+                      >
+                        Save
+                      </Button>
+                    </Stack>
+                  </div>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
+          </>
+        )}
       </div>
     </div>
   );
