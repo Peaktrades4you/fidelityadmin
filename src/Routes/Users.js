@@ -121,11 +121,19 @@ export default function Users() {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {user.isEmailVerified ? (
-                          <Button color="primary" variant="contained">
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            sx={{ position: "unset" }}
+                          >
                             Active
                           </Button>
                         ) : (
-                          <Button color="secondary" variant="outlined">
+                          <Button
+                            color="secondary"
+                            variant="outlined"
+                            sx={{ position: "unset" }}
+                          >
                             Inactive
                           </Button>
                         )}

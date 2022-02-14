@@ -158,11 +158,19 @@ export default function Investors() {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {user.isEmailVerified ? (
-                          <Button color="primary" variant="contained">
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            sx={{ position: "unset" }}
+                          >
                             Active
                           </Button>
                         ) : (
-                          <Button color="secondary" variant="outlined">
+                          <Button
+                            color="secondary"
+                            variant="outlined"
+                            sx={{ position: "unset" }}
+                          >
                             Inactive
                           </Button>
                         )}
@@ -174,6 +182,7 @@ export default function Investors() {
                           variant="contained"
                           onClick={handleClick}
                           onMouseEnter={() => handleUin(user?.uin)}
+                          sx={{ position: "unset" }}
                         >
                           See Plans
                         </Button>
