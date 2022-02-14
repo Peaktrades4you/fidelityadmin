@@ -12,14 +12,17 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import "../Styles/Sidenav.css";
+import { useNavigate } from "react-router";
 export default function MySideNav() {
   const [toggled, setToggled] = useState(false);
+  const navigate = useNavigate();
   const handleToggle = () => {
     setToggled(!toggled);
   };
 
   const logout = () => {
     localStorage.clear();
+    navigate("/");
   };
   return (
     <>

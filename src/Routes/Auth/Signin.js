@@ -18,7 +18,7 @@ import Spinner from "../../Components/Spinner";
 function SignIn(props) {
   const dispatch = useDispatch();
   const { loading, auth } = useSelector(({ Auth }) => Auth);
-
+  console.log(auth?.error, "error");
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loginDetails, setLoginDetails] = useState({
