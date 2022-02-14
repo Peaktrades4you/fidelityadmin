@@ -140,16 +140,16 @@ export default function Users() {
                               status: false,
                               method: null,
                             },
-                            {
-                              value: "Disable",
-                              url: "#",
-                              status: false,
-                              method: function () {
-                                if (this.status) {
-                                  console.log("yayy");
-                                }
-                              },
-                            },
+                            // {
+                            //   value: "Disable",
+                            //   url: "#",
+                            //   status: false,
+                            //   method: function () {
+                            //     if (this.status) {
+                            //       console.log("yayy");
+                            //     }
+                            //   },
+                            // },
                           ]}
                         />
                       </StyledTableCell>

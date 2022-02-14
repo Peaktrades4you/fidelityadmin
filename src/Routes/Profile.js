@@ -35,11 +35,15 @@ export default function Profile() {
   const form = new FormData();
   const handleProfile = (e) => {
     e.preventDefault();
-    form.append("image", image);
     form.append("username", profileDetails.username);
     form.append("first_name", profileDetails.first_name);
     form.append("last_name", profileDetails.last_name);
     console.log(form, "form");
+    dispatch(handleEditProfile(form));
+  };
+  const submitImage = (e) => {
+    e.preventDefault();
+    form.append("image", image);
     dispatch(handleEditProfile(form));
   };
 
@@ -52,7 +56,6 @@ export default function Profile() {
       [name]: value,
     });
     console.log(name, value);
-    console.log(profileDetails, "pdeets");
   };
   const [image, setImage] = useState({});
 
@@ -139,7 +142,7 @@ export default function Profile() {
               </div>
               <p>Accepted formats:png,jpg</p>
               <div className="prof-photo-button">
-                <button onClick={handleProfile}>Upload</button>
+                <button onClick={submitImage}>Upload</button>
               </div>
             </div>
           </div>
