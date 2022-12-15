@@ -25,7 +25,7 @@ export const handleUserAuth = (body) => async (dispatch) => {
   dispatch(handleAuth());
   try {
     const response = await axios({
-      url: "https://fidelity-trades.herokuapp.com/admin/auth/login",
+      url: "https://peak-trades-admin.onrender.com/admin/auth/login",
       method: "POST",
       data: body,
       mode: "cors",

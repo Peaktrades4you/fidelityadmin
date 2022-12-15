@@ -52,7 +52,7 @@ export const handleEditProfile = (body) => async (dispatch) => {
   dispatch(editProfile());
   try {
     const response = await fetch(
-      "https://fidelity-trades.herokuapp.com/admin/profile",
+      "https://peak-trades-admin.onrender.com/admin/profile",
       {
         method: "put",
         body: body,

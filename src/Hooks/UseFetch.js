@@ -3,7 +3,7 @@ export default function (Url, Method, Data = null) {
   if (Data) {
     Data = JSON.stringify(Data);
   }
-  var ModifiedUrl = "https://fidelity-trades.herokuapp.com/admin/" + Url;
+  var ModifiedUrl = "https://peak-trades-admin.onrender.com/admin/" + Url;
 
   console.log(ModifiedUrl);
   var Response = fetch(ModifiedUrl, {
