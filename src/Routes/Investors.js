@@ -83,7 +83,7 @@ export default function Investors() {
   }, [pagenum]);
 
   useEffect(() => {
-    getInvestorPlans();
+    data.items.length > 0 && getInvestorPlans();
     console.log(uin);
   }, [uin]);
 
@@ -109,7 +109,7 @@ export default function Investors() {
       setPageCount(count);
     }
   };
-
+  console.log(data.items, "investors");
   return (
     <>
       <MySideNav />
