@@ -83,7 +83,7 @@ export default function Investors() {
   }, [pagenum]);
 
   useEffect(() => {
-    data.items.length > 0 && getInvestorPlans();
+    data && getInvestorPlans();
     console.log(uin);
   }, [uin]);
 
