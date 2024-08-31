@@ -52,7 +52,7 @@ export const handleEditProfile = (body) => async (dispatch) => {
   dispatch(editProfile());
   try {
     const response = await fetch(
-      "https://peak-trades-admin.onrender.com/admin/profile",
+      process.env.API_URL+"/admin/profile",
       {
         method: "put",
         body: body,

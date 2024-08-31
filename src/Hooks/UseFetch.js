@@ -3,7 +3,7 @@ export default function (Url, Method, Data = null) {
   if (Data) {
     Data = JSON.stringify(Data);
   }
-  var ModifiedUrl = "https://peak-trades-admin.onrender.com/admin/" + Url;
+  var ModifiedUrl = process.env.API_URL + "/admin/" + Url;
 
   console.log(ModifiedUrl);
   var Response = fetch(ModifiedUrl, {
