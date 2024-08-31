@@ -25,7 +25,7 @@ export const handleUserAuth = (body) => async (dispatch) => {
   dispatch(handleAuth());
   try {
     const response = await axios({
-      url: process.env.API_URL+"/admin/auth/login",
+      url: process.env.REACT_APP_API_URL+"/admin/auth/login",
       method: "POST",
       data: body,
       mode: "cors",

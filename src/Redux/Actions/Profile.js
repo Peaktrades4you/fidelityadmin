@@ -52,7 +52,7 @@ export const handleEditProfile = (body) => async (dispatch) => {
   dispatch(editProfile());
   try {
     const response = await fetch(
-      process.env.API_URL+"/admin/profile",
+      process.env.REACT_APP_API_URL+"/admin/profile",
       {
         method: "put",
         body: body,
